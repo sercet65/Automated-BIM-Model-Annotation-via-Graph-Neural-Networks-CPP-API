@@ -1,0 +1,27 @@
+﻿#include "ResourceIds.hpp"
+
+'STR#' ID_MY_ADDON_INFO "Add-on Name and Description" {
+    /* [1] */ "Extraction_V2"
+    /* [2] */ "Extraction_V2 is a helpful Archicad add-on for easier data extraction and element management"
+}
+
+'STR#' 32500 "ExtractBE Menu" {
+    /* [ ] */ "Extract"
+    /* [1] */ "Extract BE"
+
+}
+
+'STR#' 32501 "Strings for My Add-On Menu" {
+    /* [ ] */ "Extract"
+    /* [1] */ "Hide Annotations and Dimensions" // New menu item
+}
+
+'STR#' 32502 "Strings for My Add-On Menu" {
+    /* [ ] */ "Extract"
+    /* [1] */ "Automatic Arrangement" // New menu item
+}
+
+'STR#' 32503 "Strings for My Add-On Menu" {
+    /* [ ] */ "Extract"
+    /* [1] */ "Annotation Creation" // New menu item
+}
