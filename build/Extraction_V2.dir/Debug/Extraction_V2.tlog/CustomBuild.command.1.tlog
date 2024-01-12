@@ -1,0 +1,24 @@
+^C:\API DEVELOPMENT KIT 27.3001\SERVER ADD ON\EXTRACTION_V2 C\EXTRACTION_V2\BUILD\CMAKEFILES\035199C67F88CE71DFD1E1E848C6654A\ADDONRESOURCES.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/ResourceObjects"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\serve\AppData\Local\Programs\Python\Python312\python.exe "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/Tools/CompileResources.py" INT "C:/Program Files/GRAPHISOFT/API Development Kit 27.3001/Support" "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/Src" "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2" "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/ResourceObjects" "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/ResourceObjects/Extraction_V2.res"
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/ResourceObjects/AddOnResources.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\API DEVELOPMENT KIT 27.3001\SERVER ADD ON\EXTRACTION_V2 C\EXTRACTION_V2\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2" "-BC:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build" --check-stamp-file "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

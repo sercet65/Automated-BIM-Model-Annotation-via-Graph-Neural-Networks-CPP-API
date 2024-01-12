@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Src\Extraction_V2.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Src\APICommon.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Src\APIEnvir.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Src\APIdefs_Elements.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Src\ResourceIds.hpp">
+      <Filter>Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\CMakeFiles\035199c67f88ce71dfd1e1e848c6654a\AddOnResources.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\RFIX\Images\AddOnIcon_18x18.svg">
+      <Filter>Images</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\RFIX.win\Extraction_V2Main.rc2">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\RFIX\Extraction_V2Fix.grc">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\RINT\Extraction_V2.grc">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Tools\BuildAddOn.py">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\Tools\CompileResources.py">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\ResourceObjects\AddOnResources.stamp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3DFB6638-8F73-3D1A-A540-E8C17DB84552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Images">
+      <UniqueIdentifier>{D5951DEB-59D1-3980-976E-9986447EAA76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{EA2D7FEE-5159-35BA-9496-60FEC93B2F4C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{5DE42126-DB18-3089-B90D-2FE0A3E41C8C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

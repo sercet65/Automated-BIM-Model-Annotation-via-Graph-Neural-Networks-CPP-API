@@ -1,0 +1,10 @@
+^C:\API DEVELOPMENT KIT 27.3001\SERVER ADD ON\EXTRACTION_V2 C\EXTRACTION_V2\BUILD\CMAKEFILES\8F77BFC890FD7A5D8790C297D46CA82C\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2" "-BC:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/Extraction_V2.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,13 @@
+﻿  Compiling resources...
+  Extraction_V2.grc
+  Extraction_V2Fix.grc
+  Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+  
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  
+  Building Custom Rule C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/CMakeLists.txt
+  Extraction_V2.cpp
+ACAP_STATD.lib(ACAPlib_.obj) : warning LNK4099: PDB 'API_c.pdb' was not found with 'ACAP_STATD.lib(ACAPlib_.obj)' or at 'C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\Debug\API_c.pdb'; linking object as if no debug info
+     Creating library C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/Debug/Extraction_V2.lib and object C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/Debug/Extraction_V2.exp
+  Extraction_V2.vcxproj -> C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\Debug\Extraction_V2.apx

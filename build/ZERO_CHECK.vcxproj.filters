@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\CMakeFiles\8f77bfc890fd7a5d8790c297d46ca82c\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3DFB6638-8F73-3D1A-A540-E8C17DB84552}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

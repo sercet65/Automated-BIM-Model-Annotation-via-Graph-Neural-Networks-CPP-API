@@ -1,0 +1,19 @@
+//nclude "DGDefs.h"
+
+/*---- This file was created by GRC compiler --------------------------------------------*/
+/*                                                                                       */
+/*     Source file: C:\API Development Kit 27.3001\Server Add on\Extraction_V2 c\Extraction_V2\build\ResourceObjects\Extraction_V2Fix.grc.i        Code table: NUL              */
+/*                                                                                       */
+/*---- Version 2.0 - Windows ------------------------------ (c) 1996-2023 by Graphisoft -*/
+
+32500 MDID
+BEGIN
+	8, 0,
+	0L + 879970663,
+	0L + 3053604981
+END
+
+I10001&96	ICON "AddOnIcon&96.ico"
+
+I10001&192	ICON "AddOnIcon&192.ico"
+
