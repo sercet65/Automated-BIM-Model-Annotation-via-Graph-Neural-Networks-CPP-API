@@ -32,7 +32,7 @@ static const Int32 ClearAnnotationsCommandID = 3; // Adjust the ID as needed
 // Output file for element information
 std::ofstream outFile;
 std::map<API_Guid, std::set<API_Guid>> wallDoors;
-
+std::map<API_Guid, API_Guid> doorToWallMap; // Global declaration
 // Check environment function
 API_AddonType __ACDLL_CALL CheckEnvironment(API_EnvirParams* envir)
 {
@@ -100,6 +100,7 @@ void ProcessBuildingElements() {
     }
 }
 // Function to report properties of an element
+
 void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemType, std::ofstream& outFile)
 {
     char reportStr[1024];
@@ -154,13 +155,52 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
 
         else if (elemType == API_DoorID) {
             // Handle Door elements
-
             API_DoorType& door = element.door;
-            // Access markGuid from openingBase
             GS::Guid markGuid = APIGuid2GSGuid(door.openingBase.markGuid);
             std::string markGuidStr = (const char*)markGuid.ToUniString().ToCStr().Get();
             sprintf(reportStr, "Door Element, GUID: %s, Marker GUID: %s", APIGuidToString(elementGuid).ToCStr().Get(), markGuidStr.c_str());
+
+            // Retrieve connected labels for the door
+            GS::Array<API_Guid> connectedLabels;
+            if (ACAPI_Grouping_GetConnectedElements(elementGuid, API_LabelID, &connectedLabels) == NoError) {
+                for (const API_Guid& labelGuid : connectedLabels) {
+                    // Retrieve label element data
+                    API_Element labelElement;
+                    BNZeroMemory(&labelElement, sizeof(API_Element));
+                    labelElement.header.guid = labelGuid;
+
+                    if (ACAPI_Element_Get(&labelElement) == NoError) {
+                        // Get bounding box for the label
+                        API_Box3D boundingBox;
+                        if (ACAPI_Element_CalcBounds(&labelElement.header, &boundingBox) == NoError) {
+                            // Append label GUID and bounding box to the door report
+                            sprintf(reportStr + strlen(reportStr), ", Label GUID: %s, Bounding Box DL: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)]",
+                                APIGuidToString(labelGuid).ToCStr().Get(),
+                                boundingBox.xMin, boundingBox.yMin, boundingBox.zMin,
+                                boundingBox.xMax, boundingBox.yMax, boundingBox.zMax);
+                        }
+                        else {
+                            // Handle error in retrieving the bounding box
+                            sprintf(reportStr + strlen(reportStr), ", Label GUID: %s, Bounding Box: Not available",
+                                APIGuidToString(labelGuid).ToCStr().Get());
+                        }
+                    }
+                }
+            }
+
+
+            // Include the wall GUID if the door is embedded in a wall
+            auto wallIt = doorToWallMap.find(elementGuid);
+            if (wallIt != doorToWallMap.end()) {
+                API_Guid wallGuid = wallIt->second;
+                sprintf(reportStr + strlen(reportStr), ", Embedded in Wall GUID: %s", APIGuidToString(wallGuid).ToCStr().Get());
+            }
+            else {
+                strcat(reportStr, ", Not embedded in any wall");
+            }
         }
+        
+
 
         else {
             // Handle other types (walls, slabs, etc.)
@@ -184,6 +224,7 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
                     GSSize doorCount = BMGetPtrSize(reinterpret_cast<GSPtr>(memo.wallDoors)) / sizeof(API_Guid);
                     for (GSSize i = 0; i < doorCount; i++) {
                         const API_Guid& doorGuid = memo.wallDoors[i];
+                        doorToWallMap[doorGuid] = elementGuid; // Map each door to this wall
                         if (!doorsStr.empty()) doorsStr += ", ";
                         doorsStr += APIGuidToString(doorGuid).ToCStr().Get();
                     }
@@ -210,17 +251,26 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
         // Retrieve the bounding box for the element
         API_Box3D extent3D;
         if (ACAPI_Element_CalcBounds(&element.header, &extent3D) == NoError) {
-            // Append bounding box info to your report
-            sprintf(reportStr + strlen(reportStr), ", Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)]",
-                extent3D.xMin, extent3D.yMin, extent3D.zMin,
-                extent3D.xMax, extent3D.yMax, extent3D.zMax);
+            // Get the name of the element type
+            GS::UniString elemName;
+            char elemTypeStr[64] = { 0 };
+            if (ACAPI_Element_GetElemTypeName(elemType, elemName) == NoError) {
+                sprintf(elemTypeStr, ", %s", (const char*)elemName.ToCStr());
+            }
+            else {
+                sprintf(elemTypeStr, ", Type: %d", elemType);
+            }
+
+            // Append element type and bounding box info to your report
+            sprintf(reportStr + strlen(reportStr), ", %s Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)]",
+                elemTypeStr, // Element type
+                extent3D.xMin, extent3D.yMin, extent3D.zMin, // Bounding Box minimum coordinates
+                extent3D.xMax, extent3D.yMax, extent3D.zMax); // Bounding Box maximum coordinates
         }
         else {
             // Handle error in retrieving the bounding box
             strcat(reportStr, ", Bounding Box: Not available");
         }
-
-
 
         outFile << reportStr << std::endl;
         // Clear element data
@@ -255,45 +305,54 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
 
     GSErrCode err = ACAPI_Element_Get(&element);
     if (err == NoError && elemType == API_DimensionID) {
-        API_DimensionType& dimension = element.dimension;
-
-        // Format the report string with extracted properties from linear dimension
-        sprintf(reportStr, "Linear Dimension, GUID: %s, Line Pen: %d, Text Position: %d",
-            APIGuidToString(elementGuid).ToCStr().Get(),
-            dimension.linPen,
-            dimension.textPos);
-
-        // Retrieve the bounding box for the element
-        API_Box3D boundingBox;
-        if (ACAPI_Element_CalcBounds(&element.header, &boundingBox) == NoError) {
-            // Append bounding box info to your report
-            sprintf(reportStr + strlen(reportStr), ", Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)]",
-                boundingBox.xMin, boundingBox.yMin, boundingBox.zMin,
-                boundingBox.xMax, boundingBox.yMax, boundingBox.zMax);
-        }
-        else {
-            // Handle error in retrieving the bounding box
-            strcat(reportStr, ", Bounding Box: Not available");
-        }
-
-        outFile << reportStr << std::endl;
-
-
         API_ElementMemo memo;
         BNZeroMemory(&memo, sizeof(API_ElementMemo));
+        double totalLength = 0.0; // Variable to accumulate total length
         if (ACAPI_Element_GetMemo(element.header.guid, &memo) == NoError) {
             Int32 numDimElems = BMGetHandleSize((GSHandle)memo.dimElems) / sizeof(API_DimElem);
             for (Int32 i = 0; i < numDimElems; ++i) {
                 API_DimElem& dimElem = (*memo.dimElems)[i];
                 API_Base base = reinterpret_cast<API_Base&>(dimElem.base);
+                totalLength += dimElem.dimVal; // Accumulate the length
+                // Extracting Dimension Text
+                GS::UniString dimText = (dimElem.note.contentUStr != nullptr) ?
+                    *(dimElem.note.contentUStr) :
+                    GS::UniString(dimElem.note.content);
 
-                // Output the GUID of the linear dimension element and the associated base element's GUID
-                outFile << "Dimension element [" << i << "] GUID: " << APIGuidToString(elementGuid).ToCStr().Get()
-                    << " is associated with Element GUID: " << APIGuidToString(base.guid).ToCStr().Get() << std::endl;
+                // Formatting the output string for each dimension element
+                sprintf(reportStr, "Dimension element [%d], GUID: %s, Associated Element GUID: %s, Text: %s, Length: %.2f mm, Position: (%.2f, %.2f)",
+                    i,
+                    APIGuidToString(elementGuid).ToCStr().Get(),
+                    APIGuidToString(base.guid).ToCStr().Get(),
+                    dimText.ToCStr().Get(),
+                    dimElem.dimVal,
+                    dimElem.pos.x, dimElem.pos.y);
+
+                outFile << reportStr << std::endl;
             }
+
+            // Retrieve and report the bounding box for the entire dimension element
+            API_Box3D boundingBox;
+            if (ACAPI_Element_CalcBounds(&element.header, &boundingBox) == NoError) {
+                sprintf(reportStr, "Linear Dimension Element, GUID: %s, Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Total Length : % .2f mm",
+                    APIGuidToString(elementGuid).ToCStr().Get(),
+                    boundingBox.xMin, boundingBox.yMin, boundingBox.zMin,
+                    boundingBox.xMax, boundingBox.yMax, boundingBox.zMax,
+                    totalLength); // Include total length here
+            }
+            else {
+                // Handle error in retrieving the bounding box
+                sprintf(reportStr, "Bounding Box for Dimension Element, GUID: %s: Not available",
+                    APIGuidToString(elementGuid).ToCStr().Get());
+            }
+
+            outFile << reportStr << std::endl;
             ACAPI_DisposeElemMemoHdls(&memo);
         }
-
+        else {
+            strcat(reportStr, "Error retrieving element memo");
+            outFile << reportStr << std::endl;
+        }
     }
     else {
         strcat(reportStr, "Error or Unsupported Element Type");
