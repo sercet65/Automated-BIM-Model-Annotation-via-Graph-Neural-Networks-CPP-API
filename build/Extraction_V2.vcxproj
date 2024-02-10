@@ -112,6 +112,8 @@
       <ImportLibrary>C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/Debug/Extraction_V2.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/Debug/Extraction_V2.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
+      <StackReserveSize>1048576</StackReserveSize>
+      <StackCommitSize>32768</StackCommitSize>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>

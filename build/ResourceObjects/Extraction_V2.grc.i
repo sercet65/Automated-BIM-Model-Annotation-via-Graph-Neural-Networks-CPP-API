@@ -24,7 +24,7 @@
 
 'STR#' 32501 "Strings for My Add-On Menu" {
      "Extract"
-     "Hide Annotations and Dimensions" 
+     "Delete ADZL" 
 }
 
 'STR#' 32502 "Strings for My Add-On Menu" {
@@ -35,4 +35,9 @@
 'STR#' 32503 "Strings for My Add-On Menu" {
      "Extract"
      "Annotation Creation" 
+}
+
+'STR#' 32504 "Strings for My Add-On Menu" {
+     "Extract"
+     "Message" 
 }

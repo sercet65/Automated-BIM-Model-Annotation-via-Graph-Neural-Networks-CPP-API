@@ -26,7 +26,7 @@ events:
       Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
       Copyright (C) Microsoft Corporation. All rights reserved.
       
-      Build started 1/11/2024 10:24:09 PM.
+      Build started 1/14/2024 11:45:41 PM.
       Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\3.27.7\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
         Creating directory "Debug\\".
@@ -52,7 +52,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:01.04
+      Time Elapsed 00:00:00.97
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -80,7 +80,7 @@ events:
       Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
       Copyright (C) Microsoft Corporation. All rights reserved.
       
-      Build started 1/11/2024 10:24:10 PM.
+      Build started 1/14/2024 11:45:42 PM.
       Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\3.27.7\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
         Creating directory "Debug\\".
@@ -106,7 +106,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.74
+      Time Elapsed 00:00:00.71
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -125,8 +125,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-cjwcj9"
-      binary: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-cjwcj9"
+      source: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-kl49yn"
+      binary: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-kl49yn"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -135,39 +135,39 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-cjwcj9'
+        Change Dir: 'C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-kl49yn'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_28ebf.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_3102b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
         Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
         Copyright (C) Microsoft Corporation. All rights reserved.
         
-        Build started 1/11/2024 10:24:11 PM.
-        Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cjwcj9\\cmTC_28ebf.vcxproj" on node 1 (default targets).
+        Build started 1/14/2024 11:45:43 PM.
+        Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-kl49yn\\cmTC_3102b.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_28ebf.dir\\Debug\\".
-          Creating directory "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cjwcj9\\Debug\\".
-          Creating directory "cmTC_28ebf.dir\\Debug\\cmTC_28ebf.tlog\\".
+          Creating directory "cmTC_3102b.dir\\Debug\\".
+          Creating directory "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-kl49yn\\Debug\\".
+          Creating directory "cmTC_3102b.dir\\Debug\\cmTC_3102b.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_28ebf.dir\\Debug\\cmTC_28ebf.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Creating "cmTC_3102b.dir\\Debug\\cmTC_3102b.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_28ebf.dir\\Debug\\\\" /Fd"cmTC_28ebf.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_3102b.dir\\Debug\\\\" /Fd"cmTC_3102b.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30153 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
           CMakeCCompilerABI.c
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_28ebf.dir\\Debug\\\\" /Fd"cmTC_28ebf.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_3102b.dir\\Debug\\\\" /Fd"cmTC_3102b.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCCompilerABI.c"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cjwcj9\\Debug\\cmTC_28ebf.exe" /INCREMENTAL /ILK:"cmTC_28ebf.dir\\Debug\\cmTC_28ebf.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-cjwcj9/Debug/cmTC_28ebf.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-cjwcj9/Debug/cmTC_28ebf.lib" /MACHINE:X64  /machine:x64 cmTC_28ebf.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_28ebf.vcxproj -> C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cjwcj9\\Debug\\cmTC_28ebf.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-kl49yn\\Debug\\cmTC_3102b.exe" /INCREMENTAL /ILK:"cmTC_3102b.dir\\Debug\\cmTC_3102b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-kl49yn/Debug/cmTC_3102b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-kl49yn/Debug/cmTC_3102b.lib" /MACHINE:X64  /machine:x64 cmTC_3102b.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_3102b.vcxproj -> C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-kl49yn\\Debug\\cmTC_3102b.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_28ebf.dir\\Debug\\cmTC_28ebf.tlog\\unsuccessfulbuild".
-          Touching "cmTC_28ebf.dir\\Debug\\cmTC_28ebf.tlog\\cmTC_28ebf.lastbuildstate".
-        Done Building Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cjwcj9\\cmTC_28ebf.vcxproj" (default targets).
+          Deleting file "cmTC_3102b.dir\\Debug\\cmTC_3102b.tlog\\unsuccessfulbuild".
+          Touching "cmTC_3102b.dir\\Debug\\cmTC_3102b.tlog\\cmTC_3102b.lastbuildstate".
+        Done Building Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-kl49yn\\cmTC_3102b.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.70
+        Time Elapsed 00:00:00.67
         
       exitCode: 0
   -
@@ -179,8 +179,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-8zwaxp"
-      binary: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-8zwaxp"
+      source: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-o3ivdp"
+      binary: "C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-o3ivdp"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -189,39 +189,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-8zwaxp'
+        Change Dir: 'C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-o3ivdp'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_ecc70.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_e128a.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
         Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
         Copyright (C) Microsoft Corporation. All rights reserved.
         
-        Build started 1/11/2024 10:24:12 PM.
-        Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8zwaxp\\cmTC_ecc70.vcxproj" on node 1 (default targets).
+        Build started 1/14/2024 11:45:44 PM.
+        Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o3ivdp\\cmTC_e128a.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_ecc70.dir\\Debug\\".
-          Creating directory "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8zwaxp\\Debug\\".
-          Creating directory "cmTC_ecc70.dir\\Debug\\cmTC_ecc70.tlog\\".
+          Creating directory "cmTC_e128a.dir\\Debug\\".
+          Creating directory "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o3ivdp\\Debug\\".
+          Creating directory "cmTC_e128a.dir\\Debug\\cmTC_e128a.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_ecc70.dir\\Debug\\cmTC_ecc70.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Creating "cmTC_e128a.dir\\Debug\\cmTC_e128a.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_ecc70.dir\\Debug\\\\" /Fd"cmTC_ecc70.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_e128a.dir\\Debug\\\\" /Fd"cmTC_e128a.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30153 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
           CMakeCXXCompilerABI.cpp
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_ecc70.dir\\Debug\\\\" /Fd"cmTC_ecc70.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_e128a.dir\\Debug\\\\" /Fd"cmTC_e128a.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8zwaxp\\Debug\\cmTC_ecc70.exe" /INCREMENTAL /ILK:"cmTC_ecc70.dir\\Debug\\cmTC_ecc70.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-8zwaxp/Debug/cmTC_ecc70.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-8zwaxp/Debug/cmTC_ecc70.lib" /MACHINE:X64  /machine:x64 cmTC_ecc70.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_ecc70.vcxproj -> C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8zwaxp\\Debug\\cmTC_ecc70.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o3ivdp\\Debug\\cmTC_e128a.exe" /INCREMENTAL /ILK:"cmTC_e128a.dir\\Debug\\cmTC_e128a.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-o3ivdp/Debug/cmTC_e128a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/API Development Kit 27.3001/Server Add on/Extraction_V2 c/Extraction_V2/build/CMakeFiles/CMakeScratch/TryCompile-o3ivdp/Debug/cmTC_e128a.lib" /MACHINE:X64  /machine:x64 cmTC_e128a.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_e128a.vcxproj -> C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o3ivdp\\Debug\\cmTC_e128a.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_ecc70.dir\\Debug\\cmTC_ecc70.tlog\\unsuccessfulbuild".
-          Touching "cmTC_ecc70.dir\\Debug\\cmTC_ecc70.tlog\\cmTC_ecc70.lastbuildstate".
-        Done Building Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8zwaxp\\cmTC_ecc70.vcxproj" (default targets).
+          Deleting file "cmTC_e128a.dir\\Debug\\cmTC_e128a.tlog\\unsuccessfulbuild".
+          Touching "cmTC_e128a.dir\\Debug\\cmTC_e128a.tlog\\cmTC_e128a.lastbuildstate".
+        Done Building Project "C:\\API Development Kit 27.3001\\Server Add on\\Extraction_V2 c\\Extraction_V2\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o3ivdp\\cmTC_e128a.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.70
+        Time Elapsed 00:00:00.68
         
       exitCode: 0
 ...
