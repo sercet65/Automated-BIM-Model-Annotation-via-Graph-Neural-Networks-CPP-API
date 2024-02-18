@@ -8,7 +8,7 @@
 #include <set>
 #include <vector>
 #include <string>
-
+#include <iomanip>
 
 // Forward declaration of functions
 static GSErrCode __ACENV_CALL MenuCommandHandler(const API_MenuParams* menuParams);
@@ -107,8 +107,20 @@ struct DoorLabelInfo {
     std::string infoString = "Door Label";
 };
 
+struct DimensionNoteInfo {
+    std::string guid;
+    API_Box3D noteBoundingBox;
+    std::string noteText;
+    double textLength;
+    API_Coord position;
+    int globalDimElemCount;
+    std::string infoString = "Dim Note";
+    // Add other fields as necessary
+};
+
 std::vector<ZoneStampInfo> zoneStampInfos;
 std::vector<DoorLabelInfo> doorLabelInfos;
+std::vector<DimensionNoteInfo> dimensionNoteInfos;
 
 void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemType, std::ofstream& outFile)
 {
@@ -187,8 +199,16 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
             API_DoorType& door = element.door;
             GS::Guid markGuid = APIGuid2GSGuid(door.openingBase.markGuid);
             std::string markGuidStr = (const char*)markGuid.ToUniString().ToCStr().Get();
-            sprintf(reportStr, "Element Type: Door, GUID: %s, Marker GUID: %s", APIGuidToString(elementGuid).ToCStr().Get(), markGuidStr.c_str());
+            sprintf(reportStr, "Element Type: Door, GUID: %s, Door Width: %.2f , Door Height: %.2f ",
+                APIGuidToString(elementGuid).ToCStr().Get(),
+                door.openingBase.width,
+                door.openingBase.height);
 
+            // Check if Marker GUID should be included
+            if (!markGuidStr.empty() && markGuidStr != "00000000-0000-0000-0000-000000000000") {
+                // Append Marker GUID to the report string
+                sprintf(reportStr + strlen(reportStr), ", Marker GUID: %s", markGuidStr.c_str());
+            }
             // Retrieve connected labels for the door
             GS::Array<API_Guid> connectedLabels;
             if (ACAPI_Grouping_GetConnectedElements(elementGuid, API_LabelID, &connectedLabels) == NoError) {
@@ -380,7 +400,8 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
     API_Element element;
     BNZeroMemory(&element, sizeof(API_Element));
     element.header.guid = elementGuid;
-
+    static Int32 globalDimElemCount = 0;
+    static Int32 dimElementCount = 0; // Counter for dimension elements
     GSErrCode err = ACAPI_Element_Get(&element);
     if (err == NoError && elemType == API_DimensionID) {
         API_ElementMemo memo;
@@ -388,7 +409,7 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
         double totalLength = 0.0; // Variable to accumulate total length
         if (ACAPI_Element_GetMemo(element.header.guid, &memo) == NoError) {
             Int32 numDimElems = BMGetHandleSize((GSHandle)memo.dimElems) / sizeof(API_DimElem);
-            for (Int32 i = 0; i < numDimElems; ++i) {
+            for (Int32 i = 0; i < numDimElems; ++i, ++globalDimElemCount) {
                 API_DimElem& dimElem = (*memo.dimElems)[i];
                 API_Base base = reinterpret_cast<API_Base&>(dimElem.base);
                 totalLength += dimElem.dimVal; // Accumulate the length
@@ -399,7 +420,20 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
 
                 // Formatting the output string for each dimension element
 
-                 // Assuming a negligible thickness for the dimension element to simulate a bounding box
+                 // Assuming average character width is roughly 60% of the noteSize
+                
+                double textWidth = 0.5;
+                double textHeight = 0.5;
+                API_Coord textPos = dimElem.note.pos; // Assuming this gives the bottom left position of the note
+                
+
+                // Calculate bounding box without rotation for simplicity
+                double textbbXMin = textPos.x;
+                double textbbYMin = textPos.y;
+                double textbbXMax = textPos.x + textWidth;
+                double textbbYMax = textPos.y + textHeight;
+                float  textbbZMin = 0.0f; // No conversion issue here, literal 0.0f is already float
+                float  textbbZMax = 0.0f; // Same as abo
                 // Assuming a negligible thickness for the dimension element to simulate a bounding box
                 const float thickness = 0.01f; // Arbitrarily small value to simulate a bounding box
 
@@ -413,19 +447,43 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
                 float bbZMin = 0.0f; // No conversion issue here, literal 0.0f is already float
                 float bbZMax = 0.0f; // Same as above
 
+                API_Box3D noteBoundingBox;
+                noteBoundingBox.xMin = textbbXMin;
+                noteBoundingBox.yMin = textbbYMin;
+                noteBoundingBox.zMin = textbbZMin;
+                noteBoundingBox.xMax = textbbXMax;
+                noteBoundingBox.yMax = textbbYMax;
+                noteBoundingBox.zMax = textbbZMax;
+
+                DimensionNoteInfo noteInfo = {
+                    APIGuidToString(element.header.guid).ToCStr().Get(), // GUID of the dimension element
+                    noteBoundingBox, // The calculated or defined bounding box for the note
+                    dimText.ToCStr().Get(), // Converting UniString to C-style string
+                    static_cast<int>(dimElem.dimVal), // Dimension value, cast to int if necessary
+                    dimElem.note.pos, // Position of the note
+                    globalDimElemCount
+                };
+
+                // Add the populated instance to the collection
+                dimensionNoteInfos.push_back(noteInfo);
+
                 // Now, format the output string to include both position and bounding box information
-                sprintf(reportStr, "Element Type: Dimension [%d], GUID: %s, Associated Element GUID: %s, Text: %s, Length: %.2f mm, Dimension [%d] Bounding Box: [(%f, %f, %f), (%f, %f, %f)], Position: (%f, %f), Info String: Dim Node %d",
-                    i,
+                sprintf(reportStr,
+                    "Element Type: DimNode %d, GUID: %s, Associated Element GUID: %s, Text: %s, Length: %.2f, "
+                    "DimNode %d Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Position: (%.2f, %.2f), "
+                    "Info String: Dim Node %d",
+                    globalDimElemCount,
                     APIGuidToString(element.header.guid).ToCStr().Get(),
                     APIGuidToString(base.guid).ToCStr().Get(),
                     dimText.ToCStr().Get(),
                     dimElem.dimVal,
-                    i, // This might be duplicated or unnecessary if already specified at the start
+                    globalDimElemCount, // Used again, make sure it's an int
                     bbXMin, bbYMin, bbZMin,
                     bbXMax, bbYMax, bbZMax,
                     dimElem.pos.x, dimElem.pos.y,
-                    i); // Duplicated 'i' at the end might be unnecessary
+                    globalDimElemCount); // Make sure the final count matches the type expected by '%d'
 
+               
 
                 outFile << reportStr << std::endl;
             }
@@ -433,11 +491,14 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
             // Retrieve and report the bounding box for the entire dimension element
             API_Box3D boundingBox;
             if (ACAPI_Element_CalcBounds(&element.header, &boundingBox) == NoError) {
-                sprintf(reportStr, "Element Type: Dimension, GUID: %s, Dimension Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Total Length : % .2f mm, Info String: Dim",
+
+                ++dimElementCount;
+                sprintf(reportStr, "Element Type: Dimension, GUID: %s, Dimension Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Total Length: %.2f, Info String: Dim %d",
                     APIGuidToString(elementGuid).ToCStr().Get(),
                     boundingBox.xMin, boundingBox.yMin, boundingBox.zMin,
                     boundingBox.xMax, boundingBox.yMax, boundingBox.zMax,
-                    totalLength); // Include total length here
+                    totalLength,
+                    dimElementCount); // Include total length here
             }
             else {
                 // Handle error in retrieving the bounding box
@@ -463,19 +524,33 @@ void OutputAdditionalInfo(std::ofstream& outFile) {
     // Output Zone Stamp Info
     for (const auto& info : zoneStampInfos) {
         outFile << "Element Type: Zone Stamp, GUID: " << info.guid
-            << ", Zone Stamp Bounding Box: [(" << info.boundingBox.xMin << ", " << info.boundingBox.yMin << ", " << info.boundingBox.zMin
+            << ", Zone Stamp Bounding Box: [(" << std::fixed << std::setprecision(2) << info.boundingBox.xMin << ", " << info.boundingBox.yMin << ", " << info.boundingBox.zMin
             << "), (" << info.boundingBox.xMax << ", " << info.boundingBox.yMax << ", " << info.boundingBox.zMax << ")]"
-            << ", Info String: " << info.infoString // Separated info string
+            << ", Info String: " << info.infoString
             << "\n";
     }
 
     // Output Door Label Info
     for (const auto& info : doorLabelInfos) {
         outFile << "Element Type: Door Label, GUID: " << info.guid
-            << ", Label Bounding Box: [(" << info.boundingBox.xMin << ", " << info.boundingBox.yMin << ", " << info.boundingBox.zMin
+            << ", Label Bounding Box: [(" << std::fixed << std::setprecision(2) << info.boundingBox.xMin << ", " << info.boundingBox.yMin << ", " << info.boundingBox.zMin
             << "), (" << info.boundingBox.xMax << ", " << info.boundingBox.yMax << ", " << info.boundingBox.zMax << ")]"
-            << ", Info String: " << info.infoString // Separated info string
+            << ", Info String: " << info.infoString
             << "\n";
+    }
+    // Output Dimension note Info
+    for (const auto& info : dimensionNoteInfos) {
+        outFile << "Element Type: DimText " << info.globalDimElemCount << ", GUID: " << info.guid
+            << ", DimText " << info.globalDimElemCount << " Bounding Box: [("
+            << std::fixed << std::setprecision(2)
+            << info.noteBoundingBox.xMin << ", " << info.noteBoundingBox.yMin << ", " << info.noteBoundingBox.zMin
+            << "), ("
+            << info.noteBoundingBox.xMax << ", " << info.noteBoundingBox.yMax << ", " << info.noteBoundingBox.zMax << ")]"
+            << ", Text: " << info.noteText
+            << ", Position: ("
+            << info.position.x << ", " << info.position.y << ")"
+            << ", Info String: Dim Text " << info.globalDimElemCount
+            << std::endl;
     }
 }
 
