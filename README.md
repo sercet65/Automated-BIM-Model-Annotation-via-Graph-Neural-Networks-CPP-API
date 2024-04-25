@@ -28,8 +28,11 @@
 
 ## Usage
 After installation, access the add-on functionalities in Archicad through custom menu items:
-- **Process Building Elements**: Extracts data from building elements.
-- **Clear Dimensions and Annotations**: Removes dimensions and annotations.
+- **Extract BE**: Extracts data from building elements.
+- **Delete ADZL**: Removes dimensions and annotations.
+- **Automatic Annotation**: Removes dimensions and annotations.
+
+!!!For Automatic annotation part make sure that the debug folder (or where you specify the location) includes related csv file with predicted label types.
 
 ## Key Libraries and Headers
 The add-on leverages several key libraries and headers, including:
