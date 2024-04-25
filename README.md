@@ -4,7 +4,7 @@
 ## Reminder: Organize hard-coded file paths before running to ensure all necessary files are generated and to review the final results.
 
 ## Overview
-`Extraction_V2` is a C++ add-on for Archicad designed to streamline the extraction of building element information, enhancing architectural data analysis and management.
+`ServCAD` is a C++ add-on for Archicad designed to streamline the extraction of building element information, enhancing architectural data analysis and management.
 
 ## Features
 - **Data Extraction**: Retrieves detailed information on building elements such as walls, doors, zones, and dimensions.
@@ -26,12 +26,14 @@
 5. Install the compiled add-on in Archicad 27.
 
 ## Usage
+!!!When you first load the Addon, it creates the Elementinfo.txt file for data generation inside the debug folder or where you open the project for processing,  make sure to check both places. For better functionality,  you can specify the location before building the Addon.
+
 After installation, access the add-on functionalities in Archicad through custom menu items:
 - **Extract BE**: Extracts data from building elements.
 - **Delete ADZL**: Removes dimensions and annotations.
 - **Automatic Annotation**: Removes dimensions and annotations.
 
-!!!For Automatic annotation part make sure that the debug folder (or where you specify the location) includes related csv file with predicted label types.
+!!!For the Automatic annotation part , make sure that the debug folder (or where you specify the location) includes related csv file with predicted label types.
 
 ## Key Libraries and Headers
 The add-on leverages several key libraries and headers, including:
