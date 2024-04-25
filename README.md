@@ -1,8 +1,7 @@
 
 # Extraction_V2: Archicad Data Extraction Add-On
 
-## Reminder: Organize hard-coded file paths before running to ensure all necessary files are generated 
-## and to review the final results.
+## Reminder: Organize hard-coded file paths before running to ensure all necessary files are generated and to review the final results.
 
 ## Overview
 `Extraction_V2` is a C++ add-on for Archicad designed to streamline the extraction of building element information, enhancing architectural data analysis and management.
