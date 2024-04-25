@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include "AutomaticAnnotation.hpp"
 
 // Forward declaration of functions
 static GSErrCode __ACENV_CALL MenuCommandHandler(const API_MenuParams* menuParams);
@@ -36,6 +37,8 @@ static const Int32 ClearAnnotationsCommandID = 3; // Adjust the ID as needed
 std::ofstream outFile;
 std::map<API_Guid, std::set<API_Guid>> wallDoors;
 std::map<API_Guid, API_Guid> doorToWallMap; // Global declaration
+std::map<API_Guid, bool> wallHasDimElems;
+
 // Check environment function
 API_AddonType __ACDLL_CALL CheckEnvironment(API_EnvirParams* envir)
 {
@@ -79,19 +82,28 @@ GSErrCode __ACENV_CALL FreeData(void)
 // Function to process building elements
 void ProcessBuildingElements() {
     GS::Array<API_Guid> elementList;
-    API_ElemTypeID elementTypes[] = { API_WallID, API_SlabID, API_ZoneID, API_DoorID, API_DimensionID };
+
+    // Process dimension elements first to populate wallHasDimElems
+    if (ACAPI_Element_GetElemList(API_DimensionID, &elementList) == NoError && !elementList.IsEmpty()) {
+        for (const API_Guid& elementGuid : elementList) {
+            ReportDimensionElementProperties(elementGuid, API_DimensionID, outFile);
+        }
+    }
+
+    // Clear the list before processing other types
+    elementList.Clear();
+
+    // Now, process all other element types, ensuring walls are processed after dimension elements
+    API_ElemTypeID elementTypes[] = { API_WallID, API_SlabID, API_ZoneID, API_DoorID };
+
     for (API_ElemTypeID elemType : elementTypes) {
-        elementList.Clear();
         if (ACAPI_Element_GetElemList(elemType, &elementList) == NoError && !elementList.IsEmpty()) {
             for (const API_Guid& elementGuid : elementList) {
-                if (elemType == API_DimensionID) {
-                    ReportDimensionElementProperties(elementGuid, elemType, outFile);
-                }
-                else {
-                    ReportElementProperties(elementGuid, elemType, outFile);
-                }
+                ReportElementProperties(elementGuid, elemType, outFile);
             }
         }
+        // Clear the list after each type to prepare for the next
+        elementList.Clear();
     }
 }
 // Function to report properties of an element
@@ -199,7 +211,7 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
             API_DoorType& door = element.door;
             GS::Guid markGuid = APIGuid2GSGuid(door.openingBase.markGuid);
             std::string markGuidStr = (const char*)markGuid.ToUniString().ToCStr().Get();
-            sprintf(reportStr, "Element Type: Door, GUID: %s, Door Width: %.2f , Door Height: %.2f ",
+            sprintf(reportStr, "Element Type: Door, GUID: %s, Width: %.2f , Height: %.2f ",
                 APIGuidToString(elementGuid).ToCStr().Get(),
                 door.openingBase.width,
                 door.openingBase.height);
@@ -273,6 +285,27 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
         // Handling Wall elements (Check for any Embedded Doors)
 
         if (elemType == API_WallID) {
+            API_WallType& wall = element.wall;
+
+            // Calculate the length of the wall in the XY-plane
+            double dx = wall.begC.x - wall.endC.x;
+            double dy = wall.begC.y - wall.endC.y;
+            double wallLength = sqrt(dx * dx + dy * dy);
+
+            // Use the thickness at the beginning of the wall as the reported thickness
+            double wallThickness = wall.thickness;
+
+            // Wall height relative to its bottom
+            double wallHeight = wall.height;
+
+            // Append wall length, thickness, and height to the report string
+            sprintf(reportStr + strlen(reportStr), ", Length: %.2f, Width: %.2f, Height: %.2f", wallLength, wallThickness, wallHeight);
+
+        }
+
+
+
+        if (elemType == API_WallID) {
             API_ElementMemo memo;
             BNZeroMemory(&memo, sizeof(API_ElementMemo));
             if (ACAPI_Element_GetMemo(elementGuid, &memo) == NoError) {
@@ -331,40 +364,50 @@ void ReportElementProperties(const API_Guid& elementGuid, API_ElemTypeID elemTyp
         }
 
         // Check for attached label (Label classification)
-        bool hasLabel = false;
+       
         GS::Array<API_Guid> connectedLabels;
         API_ElementMemo memo{};
         int labelType = 0;
+        // Check for dimension elements associated with walls
         if (elemType == API_WallID) {
-            API_ElementMemo memo{};
-            GSErrCode err = ACAPI_Element_GetMemo(elementGuid, &memo); // Retrieve memo for this wall
-            if (err == NoError) {
-                if (memo.wallDoors != nullptr) {
-                    GSSize doorCount = BMGetPtrSize(reinterpret_cast<GSPtr>(memo.wallDoors)) / sizeof(API_Guid);
-                    for (GSSize i = 0; i < doorCount && !hasLabel; i++) {
-                        const API_Guid& doorGuid = memo.wallDoors[i];
+            // Check global map filled in ReportDimensionElementProperties
+            labelType = wallHasDimElems.find(elementGuid) != wallHasDimElems.end() ? 1 : 0;
+        }
+        else if (elemType == API_ZoneID) {
+            // For zones, check if the stampGuid is not null to assign a label type
+            labelType = (element.zone.stampGuid != APINULLGuid) ? 4 : 0;
+        }
+        else if (elemType == API_DoorID) {
+            // For doors, first check if a marker is present
+            API_Element doorElement;
+            BNZeroMemory(&doorElement, sizeof(API_Element));
+            doorElement.header.guid = elementGuid;
 
-                        // Check for labels connected to each door
-                        if (ACAPI_Grouping_GetConnectedElements(doorGuid, API_LabelID, &connectedLabels) == NoError) {
-                            if (!connectedLabels.IsEmpty()) {
-                                labelType = 2; // A label is found for a door in this wall
-                            }
+            if (ACAPI_Element_Get(&doorElement) == NoError) {
+                API_DoorType& door = doorElement.door;
+                if (door.openingBase.markGuid != APINULLGuid) {
+                    // If door marker is present, assign label type 3
+                    labelType = 3;
+                }
+                else {
+                    // If no marker, check for connected labels and assign label type 2 if found
+                    if (ACAPI_Grouping_GetConnectedElements(elementGuid, API_LabelID, &connectedLabels) == NoError) {
+                        if (!connectedLabels.IsEmpty()) {
+                            labelType = 2;
                         }
                     }
                 }
-                ACAPI_DisposeElemMemoHdls(&memo); // Dispose memo after use
             }
-        }
-        else if (elemType == API_ZoneID) {
-            // For zones, check if the stampGuid is not null
-            if (element.zone.stampGuid != APINULLGuid) labelType = 3;
         }
         else {
             // For other element types, check for connected labels
             if (ACAPI_Grouping_GetConnectedElements(elementGuid, API_LabelID, &connectedLabels) == NoError) {
-                if (!connectedLabels.IsEmpty()) labelType = 2; // Label found for other element types
+                if (!connectedLabels.IsEmpty()) {
+                    labelType = 2; // Assign label type if labels are found
+                }
             }
         }
+
         // Append label presence info to your report
         sprintf(reportStr + strlen(reportStr), ", Label Type: %d", labelType);
 
@@ -417,7 +460,10 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
                 GS::UniString dimText = (dimElem.note.contentUStr != nullptr) ?
                     *(dimElem.note.contentUStr) :
                     GS::UniString(dimElem.note.content);
-
+                // If the base element is a wall, record that it has associated dimension elements
+                if (base.type == API_WallID) {
+                    wallHasDimElems[base.guid] = true;
+                }
                 // Formatting the output string for each dimension element
 
                  // Assuming average character width is roughly 60% of the noteSize
@@ -493,7 +539,7 @@ void ReportDimensionElementProperties(const API_Guid& elementGuid, API_ElemTypeI
             if (ACAPI_Element_CalcBounds(&element.header, &boundingBox) == NoError) {
 
                 ++dimElementCount;
-                sprintf(reportStr, "Element Type: Dimension, GUID: %s, Dimension Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Total Length: %.2f, Info String: Dim %d",
+                sprintf(reportStr, "Element Type: Dimension, GUID: %s, Dimension Bounding Box: [(%.2f, %.2f, %.2f), (%.2f, %.2f, %.2f)], Length: %.2f, Info String: Dim %d",
                     APIGuidToString(elementGuid).ToCStr().Get(),
                     boundingBox.xMin, boundingBox.yMin, boundingBox.zMin,
                     boundingBox.xMax, boundingBox.yMax, boundingBox.zMax,
@@ -564,6 +610,8 @@ void Messagebox() {
     ACAPI_WriteReport(reportStr, true);
 }
 
+
+
 // Menu command handler function 
 
 GSErrCode __ACENV_CALL ProcessBuildingElements(const API_MenuParams* menuParams)
@@ -622,6 +670,28 @@ GSErrCode __ACENV_CALL Messagebox(const API_MenuParams* menuParams)
         });
 }		/* Messagebox */
 
+
+
+// Menu command handler function 
+GSErrCode __ACENV_CALL AutomaticAnnotation(const API_MenuParams* menuParams)
+{
+    ACAPI_KeepInMemory(false);
+
+    return ACAPI_CallUndoableCommand("Element Test API Function",
+        [&]() -> GSErrCode {
+
+            switch (menuParams->menuItemRef.itemIndex) {
+            case 1:		AutomaticAnnotation();  						break;
+
+            default:
+                break;
+            }
+
+            return NoError;
+        });
+}
+
+
 GSErrCode __ACENV_CALL	Initialize(void)
 {
     GSErrCode err = NoError;
@@ -631,6 +701,7 @@ GSErrCode __ACENV_CALL	Initialize(void)
     //
     err = ACAPI_MenuItem_InstallMenuHandler(32500, ProcessBuildingElements);
     err = ACAPI_MenuItem_InstallMenuHandler(32501, DeleteDimensionsAndAnnotations);
+    err = ACAPI_MenuItem_InstallMenuHandler(32503, AutomaticAnnotation);
     err = ACAPI_MenuItem_InstallMenuHandler(32504, Messagebox);
 
     // Open the output file for writing
@@ -639,3 +710,7 @@ GSErrCode __ACENV_CALL	Initialize(void)
     return err;
 }		/* Initialize */
 
+// Copyright statement :
+// The code produced herein is part of the master thesis conducted at the Technical University of Munichand should be used with proper citation.
+// All rights reserved.
+// Happy coding!by Server Çeter
